@@ -27,7 +27,9 @@ class GameRunTest {
 	@Test
 	void passeAuTourSuivant() {
 		assertTrue(partie.enregistreLancer(1), "Premier lancer, le tour continue");
+		
 		assertFalse(partie.enregistreLancer(1), "Deuxième lancer, le tour est fini");
+		
 		assertEquals(2, partie.numeroTourCourant(), "On doit être au tour n°2");
 		assertEquals(1, partie.numeroProchainLancer(), "On doit être à la boule n°1");
 	}
@@ -73,6 +75,7 @@ class GameRunTest {
 		}, "Le jeu est fini, on doit avoir une exception");
 	}
 
+	
 	// Quelques methodes utilitaires pour faciliter l'écriture des tests
 	private boolean lancerPlusieurs(int n, int quilles) {
 		boolean leTourcontinue = false;
@@ -88,6 +91,7 @@ class GameRunTest {
 	}
 
 	private void faireUnStrike() {
+		
 		partie.enregistreLancer(10);
 	}
 
