@@ -1,29 +1,25 @@
 package bowling;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 
 public class Tour {
-	private ArrayList<Lancer> boule;
+	private int[] boule;
 	private double score;
 	
-	private int num;
 	
-	public Tour(int num,ArrayList boule){
-		this.num=num;
+	
+	public Tour(int[] boule){
 		this.boule=boule;
 		this.score=0;
-	}
-	public Tour(int num){
-		this.num=num;
 	}
 	
 	
 	public double getScore(){
-		if(boule.get(0).getQuille()==10){
-			score=boule.get(0).getQuille()+bonus();
+		if(boule[0]==10){
+			this.score=boule[0]+bonus();
 		}
 		else{
-			score=boule.get(0).getQuille()+boule.get(1).getQuille()+bonus();
+			this.score=boule[0]+ boule[0] + bonus();
 		}
 		
 		return score;
@@ -31,30 +27,41 @@ public class Tour {
 
 	public double bonus(){
 		double ret=0;
-		Tour tourprecedent=new Tour(num-1);
+		int[] lancers= new int[]{-1, -1};
+		Tour tourprecedent = new Tour(lancers);
+
 		//fais un spare
-		if(tourprecedent.getBoule().get(0).getQuille()+tourprecedent.getBoule().get(1).getQuille()==10) {
-			ret=boule.get(0).getQuille();
+		if(tourprecedent.getBoule()[0]+tourprecedent.getBoule()[1]==10) {
+			ret=boule[0];
 		}
 		//fais un strike
-		if(tourprecedent.getBoule().get(0).getQuille()==10){
-			ret=boule.get(0).getQuille()+boule.get(1).getQuille();
+		if(tourprecedent.getBoule()[0]==10){
+			ret=boule[0]+boule[1];
 		}
+		System.out.println(ret);
 		return ret;
 	}
 
 
-	public int getNum() {
-		return num;
+	
+
+	public void setBoulel1(int quille){
+		
+		boule[0]=quille;
 	}
 
+	public void setBoulel2(int quille){
+		
+		boule[1]=quille;
+	}
 
-	public ArrayList<Lancer> getBoule() {
+	
+	public int[] getBoule() {
 		return boule;
 	}
 
 	@Override
 	public String toString() {
-		return "tour : " + num + ", lancer : " + boule + ", score=" + score;
+		return ", lancer : " + Arrays.toString(boule) + ", score=" + score;
 	}
 }

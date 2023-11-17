@@ -1,6 +1,7 @@
 package bowling;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * Cette classe a pour but d'enregistrer le nombre de quilles abattues lors des
@@ -10,7 +11,8 @@ import java.util.ArrayList;
 public class PartieMonoJoueur {
 
 	private int score;
-	private ArrayList<Tour> partie;
+	private Tour[] partie;
+	
 	
 	
 	/**
@@ -18,7 +20,11 @@ public class PartieMonoJoueur {
 	 */
 	public PartieMonoJoueur() {
 		this.score=0;
-		this.partie=new ArrayList<>();
+		this.partie=new Tour[10];
+		for(int i=0;i< partie.length;i++){
+			int[] lancers= new int[]{-1, -1};
+			partie[i]=new Tour(lancers);
+		}
 	}
 
 	/**
@@ -30,35 +36,32 @@ public class PartieMonoJoueur {
 	 */
 	public boolean enregistreLancer(int nombreDeQuillesAbattues) throws IllegalStateException{
 		boolean ret= true;
-		Lancer l = new Lancer(nombreDeQuillesAbattues);
+		
+		//fin de partie
 		if(estTerminee()){
 			throw new IllegalStateException("la partie est terminée");
 		}
-		if(partie.isEmpty()){
-			ArrayList<Lancer> boules = new ArrayList<>();
-			boules.add(l);
-			Tour t = new Tour(1,boules);
-			partie.add(t);
-			System.out.println(partie);
-		}
 		
-		//fin du tour si 2 lancers effectuer ou si strike
+		//strike
+		if(nombreDeQuillesAbattues==10){
+			partie[numeroTourCourant()-1].setBoulel1(10);
+			ret=false;
+		} 
 		
-		else if(nombreDeQuillesAbattues==10 || partie.get(partie.size()-1).getBoule().size()==1){
+		else if (numeroProchainLancer()==1) {
+			partie[numeroTourCourant()-1].setBoulel1(nombreDeQuillesAbattues);
+			ret= true;
 			
-			ArrayList<Lancer> boules = new ArrayList<>();
-			boules.add(l);
-			Tour t = new Tour(partie.size(),boules);
-			partie.add(t);
-			System.out.println(partie);
-			return false;
+			
 		}
 		else{
-			partie.get(partie.size()-1).getBoule().add(l);
-			System.out.println("test");
-			System.out.println(partie);
-
+			partie[numeroTourCourant()-1].setBoulel2(nombreDeQuillesAbattues);
+			ret=false;
+			
 		}
+		System.out.println(partie[0].getBoule()[0]);
+		System.out.println(partie[0].getBoule()[1]);
+
 		return ret;
 	}
 
@@ -81,7 +84,7 @@ public class PartieMonoJoueur {
 	 */
 	public boolean estTerminee() {
 		boolean ret = false;
-		if(partie.size()==20){
+		if(partie[9].getBoule()[1]!=-1){
 			ret=true;
 		}
 		return ret;
@@ -92,20 +95,19 @@ public class PartieMonoJoueur {
 	 * @return Le numéro du tour courant [1..10], ou 0 si le jeu est fini
 	 */
 	public int numeroTourCourant() {
-		int ret=0;
-		if(partie.isEmpty()){
-			ret=1;
-		}
-		else if(!estTerminee()){
-			if(partie.get(partie.size()-1).getBoule().size()==1){
-				ret=partie.get(partie.size()-1).getNum()+1;
+		if(!estTerminee()){
+			for(int i=0;i<10;i++){
+				if(partie[i].getBoule()[0]==-1 ) {
+					return i + 1;
+				}
+				else if(partie[i].getBoule()[0]==10){
+					return i+2;
+				} else if (partie[i].getBoule()[1]==-1) {
+					return i+1;
+				}
 			}
-			else{
-				ret=partie.get(partie.size()-1).getNum()+2;
-			}
-			
 		}
-		return ret;
+		return 0;
 	}
 
 	/**
@@ -114,11 +116,19 @@ public class PartieMonoJoueur {
 	 */
 	public int numeroProchainLancer() {
 		int ret=0;
-		if(partie.isEmpty()){
-			ret=1;
-		}
-		else if(!estTerminee()){
-			ret=partie.get(partie.size()-1).getNum();
+		if(!estTerminee()){
+			if(partie[numeroTourCourant()-1].getBoule()[0]==-1){
+				ret=1;
+				System.out.println("test");
+				System.out.println(numeroTourCourant());
+			}
+			else if(partie[numeroTourCourant()-1].getBoule()[1]==-1 || partie[numeroTourCourant()-1].getBoule()[0]==10){
+				ret=2;
+				
+			}
+			else {
+				ret=1;
+			}
 		}
 		return ret;
 	}
