@@ -3,26 +3,26 @@ package bowling;
 import java.util.Arrays;
 
 public class Tour {
-	private int[] boule;
-	private double score;
-	
-	
-	
-	public Tour(int[] boule){
-		this.boule=boule;
-	}
-	
-	public void setBoulel1(int quille){
-		
-		boule[0]=quille;
+
+	//tableau de 2 lancés
+	protected int[] boule;
+
+	public Tour(int[] boule) {
+		this.boule = boule;
 	}
 
-	public void setBoulel2(int quille){
+	//changement de valeurs du lancé 1
+	public void setBoulel1(int quille) {
 		
-		boule[1]=quille;
+		boule[0] = quille;
 	}
 
-	
+	//changement de valeurs du lancé 2
+	public void setBoulel2(int quille) {
+		boule[1] = quille;
+	}
+
+
 	public int[] getBoule() {
 		return boule;
 	}

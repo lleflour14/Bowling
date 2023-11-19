@@ -3,6 +3,7 @@ package bowling;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -85,6 +86,7 @@ class SinglePlayerGameTest {
 		boolean leTourcontinue = false;
 		for (int i = 0; i < n; i++) {
 			leTourcontinue = partie.enregistreLancer(quilles);
+			System.out.println(leTourcontinue);
 		}
 		return leTourcontinue;
 	}
